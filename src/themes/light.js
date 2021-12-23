@@ -4,33 +4,33 @@ import commonSettings, { handleBackdropFilter } from "./global.js";
 
 const lightTheme = {
   color: "#253449",
-  gold: "#F8CC82",
+  gold: "#FFFFFF",
   gray: "#A3A3A3",
   blueish_gray: "#768299",
-  textHighlightColor: "#93AEBC", // "#F4D092",
-  backgroundColor: "#AFCDE9",
+  textHighlightColor: "#00000099", // "#F4D092",
+  backgroundColor: "#d7f1c8aa",
   // background:
   // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-  background: "linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)",
-  paperBg: "rgba(255, 255, 255, 0.6)",
-  modalBg: "#FAFAFAEF",
-  popoverBg: "rgba(255, 255, 255, 0.95)",
+  background: "linear-gradient(180deg, #bde9af 1%, #F7FBE7 100%)",
+  paperBg: "rgba(255, 255, 255, 0.8)",
+  modalBg: "#ffffffbb",
+  popoverBg: "rgba(255, 255, 255, 0.7)",
   menuBg: handleBackdropFilter("rgba(255, 255, 255, 0.5)"),
   backdropBg: "rgba(200, 200, 200, 0.4)",
-  largeTextColor: "#759AAE",
+  largeTextColor: "#00000099",
   activeLinkColor: "#222222",
   activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
-  // primaryButtonBG: "#759AAE",
-  primaryButtonBG: "#93AEBC",
-  primaryButtonHoverBG: "#759AAE",
+  // primaryButtonBG: "#00000099",
+  primaryButtonBG: "#00000077",
+  primaryButtonHoverBG: "#00000099",
   // these need fixing
-  primaryButtonHoverColor: "#333333",
+  primaryButtonHoverColor: "#ffffff",
   secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
-  outlinedPrimaryButtonHoverBG: "#F8CC82",
-  outlinedPrimaryButtonHoverColor: "#333333",
+  outlinedPrimaryButtonHoverBG: "#FFFFFF",
+  outlinedPrimaryButtonHoverColor: "#ffffff",
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
-  outlinedSecondaryButtonHoverColor: "#333333",
-  containedSecondaryButtonHoverBG: "#33333333",
+  outlinedSecondaryButtonHoverColor: "#ffffff",
+  containedSecondaryButtonHoverBG: "#00000066",
   graphStrokeColor: "rgba(37, 52, 73, .2)",
 };
 
@@ -202,12 +202,12 @@ export const light = responsiveFontSizes(
         },
         MuiSelect: {
           select: {
-            color: "#93AEBC",
+            color: "#00000099",
           },
         },
         MuiButton: {
           containedPrimary: {
-            color: "#FCFCFC",
+            color: "#ffffff",
             backgroundColor: lightTheme.primaryButtonBG,
             "&:hover": {
               backgroundColor: lightTheme.primaryButtonHoverBG,
@@ -240,10 +240,12 @@ export const light = responsiveFontSizes(
           outlinedPrimary: {
             color: lightTheme.primaryButtonBG,
             borderColor: lightTheme.primaryButtonBG,
+            // borderWidth: 2,
             "&:hover": {
+              // borderWidth: 2,
               color: lightTheme.gold,
               backgroundColor: lightTheme.primaryButtonHoverBG,
-              borderColor: lightTheme.primaryButtonBG,
+              borderColor: "transparent",
             },
             "@media (hover:none)": {
               color: lightTheme.primaryButtonBG,
@@ -257,10 +259,12 @@ export const light = responsiveFontSizes(
           outlinedSecondary: {
             color: lightTheme.color,
             borderColor: lightTheme.color,
+            // borderWidth: 2,
             "&:hover": {
+              // borderWidth: 2,
               color: lightTheme.outlinedSecondaryButtonHoverColor,
               backgroundColor: lightTheme.outlinedSecondaryButtonHoverBG,
-              borderColor: "#333333",
+              borderColor: "transparent",
             },
           },
           textPrimary: {
@@ -271,7 +275,7 @@ export const light = responsiveFontSizes(
             },
             "&:active": {
               color: lightTheme.gold,
-              borderBottom: "#F8CC82",
+              borderBottom: "#FFFFFF",
             },
           },
           textSecondary: {

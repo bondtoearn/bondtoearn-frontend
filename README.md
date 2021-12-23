@@ -1,4 +1,4 @@
-# [Ω Olympus Frontend](https://app.olympusdao.finance/)
+# [Ω Olympus Frontend](https://app.bondtoearn.com/)
 This is the front-end repo for Olympus that allows users be part of the future of Greece. 
 
 **_ Note We're currently in the process of switching to TypeScript. Please read  this  guide on how to use TypeScript for this repository. https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines _**
@@ -93,8 +93,8 @@ _**TODO**: TheGraph implementation/how/why we use it._
 Commits to the follow branches are automatically deployed to their respective URLs.
 | Branch | URL |
 | --- | --- |
-| master | https://app.olympusdao.finance |
-| deploy | https://staging.olympusdao.finance |
+| master | https://app.bondtoearn.com |
+| deploy | https://staging.bondtoearn.com |
 
 **Pull Requests**:
 Each PR into master will get its own custom URL that is visible on the PR page. QA & validate changes on that URL before merging into the deploy branch. 

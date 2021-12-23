@@ -7,36 +7,28 @@ import commonSettings, { handleBackdropFilter } from "./global.js";
 
 const darkTheme = {
   color: "#FCFCFC",
-  gold: "#F8CC82",
+  gold: "#ffffffdd",
   gray: "#A3A3A3",
   textHighlightColor: "#F4D092",
-  backgroundColor: "rgba(8, 15, 53, 1)",
-  background: `
-    linear-gradient(180deg, rgba(8, 15, 53, 0), rgba(0, 0, 10, 0.9)),
-    linear-gradient(333deg, rgba(153, 207, 255, 0.2), rgba(180, 255, 217, 0.08)),
-    radial-gradient(circle at 77% 89%, rgba(125, 163, 169, 0.8), rgba(125, 163, 169, 0) 50%),
-    radial-gradient(circle at 15% 95%, rgba(125, 163, 169, 0.8), rgba(125, 163, 169, 0) 43%),
-    radial-gradient(circle at 65% 23%, rgba(137, 151, 119, 0.4), rgba(137, 151, 119, 0) 70%),
-    radial-gradient(circle at 10% 0%, rgba(187, 211, 204, 0.33), rgba(187,211,204,0) 35%),
-    radial-gradient(circle at 11% 100%, rgba(131, 165, 203, 0.3), rgba(131, 165, 203, 0) 30%)
-    `,
-  paperBg: "rgba(54, 56, 64, 0.4)",
-  modalBg: "#24242699",
-  popoverBg: "rgba(54, 56, 64, 0.99)",
-  menuBg: handleBackdropFilter("rgba(54, 56, 64, 0.5)"),
-  backdropBg: "rgba(54, 56, 64, 0.5)",
+  backgroundColor: "rgba(0,47,77,0.6)",
+  background: `linear-gradient(284deg, #002d34 1%, #003164 100%)`,
+  paperBg: "rgba(255,255,255, 0.1)",
+  modalBg: "rgba(255,255,255, 0.1)",
+  popoverBg: "rgba(255,255,255, 0.2)",
+  menuBg: handleBackdropFilter("rgba(255,255,255, 0.1)"),
+  backdropBg: "rgba(255,255,255, 0.1)",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
   activeLinkSvgColor:
     "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
   primaryButtonColor: "#333333",
   primaryButtonBG: "#F4D092",
-  primaryButtonHoverBG: "#EDD8B4",
-  secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
-  outlinedPrimaryButtonHoverBG: "#F8CC82",
+  primaryButtonHoverBG: "#ffffff",
+  secondaryButtonHoverBG: "rgba(255,255,255, 0.1)",
+  outlinedPrimaryButtonHoverBG: "#ffffffdd",
   outlinedPrimaryButtonHoverColor: "#333333",
   outlinedSecondaryButtonHoverBG: "transparent",
-  outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
+  outlinedSecondaryButtonHoverColor: "#ffffffdd", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
   graphStrokeColor: "rgba(255, 255, 255, .1)",
 };
@@ -46,6 +38,9 @@ export const dark = responsiveFontSizes(
     {
       primary: {
         main: darkTheme.color,
+      },
+      shape:{
+        borderRadius: 4,
       },
       palette: {
         type: "dark",

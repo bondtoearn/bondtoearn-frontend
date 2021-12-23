@@ -151,8 +151,8 @@ export const PoolWithdraw = props => {
               style={{ margin: "5px" }}
             >
               {exitFee > 0
-                ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sOHM")
-                : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sOHM`)}
+                ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sBTE")
+                : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sBTE`)}
               {/* Withdraw sOHM */}
             </Button>
           </Box>
@@ -160,7 +160,7 @@ export const PoolWithdraw = props => {
             <Box padding={1}>
               <Typography color="error" variant="body2">
                 <Trans>
-                  Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}
+                  Withdrawing {quantity} sBTE reduces your odds of winning to 1 in {newOdds}
                 </Trans>
                 &nbsp;
               </Typography>
@@ -183,7 +183,7 @@ export const PoolWithdraw = props => {
               </Typography>
             </Box>
           )}
-          {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
+          {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sBTE in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
               <Typography variant="body1" align="left">

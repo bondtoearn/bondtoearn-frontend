@@ -1,13 +1,16 @@
 import { ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, REBASE_PER_DAY } from "../constants";
 import { abi as OlympusStakingv2ABI } from "../abi/OlympusStakingv2.json";
+import { abi as IERC20ABI } from "../abi/IERC20.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import { abi as TreasuryABI } from "../abi/BondToEarnTreasury.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
 import apollo from "../lib/apolloClient";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAsyncThunk } from "./interfaces";
-import { OlympusStakingv2, SOhmv2 } from "../typechain";
+import { OlympusStakingv2, SOhmv2, IERC20 } from "../typechain";
+import callMethodWithPool from "src/lib/pools";
 
 interface IProtocolMetrics {
   readonly timestamp: string;
@@ -25,101 +28,55 @@ interface IProtocolMetrics {
 export const loadAppDetails = createAsyncThunk(
   "app/loadAppDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
-    const protocolMetricsQuery = `
-  query {
-    _meta {
-      block {
-        number
-      }
-    }
-    protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-      timestamp
-      ohmCirculatingSupply
-      sOhmCirculatingSupply
-      totalSupply
-      ohmPrice
-      marketCap
-      totalValueLocked
-      treasuryMarketValue
-      nextEpochRebase
-      nextDistributedOhm
-    }
-  }
-`;
 
-    const graphData = await apollo<{ protocolMetrics: IProtocolMetrics[] }>(protocolMetricsQuery);
+    const callPool = callMethodWithPool({ provider, networkID })
+    const {
+      OHM_ADDRESS,
+      TREASURY_ADDRESS,
+      STAKING_ADDRESS,
+      SOHM_ADDRESS,
+    } = addresses[networkID]
 
-    if (!graphData || graphData == null) {
-      console.error("Returned a null response when querying TheGraph");
-      return;
-    }
+    const [
+      currentBlock,
+      epoch,
+      circ,
+      totalSupplyRaw,
+      totalReservesRaw,
+      currentIndexRaw,
+      marketPrice,
+    ] = await Promise.all([
+      provider.getBlockNumber(),
+      callPool(STAKING_ADDRESS, OlympusStakingv2ABI, "epoch", []),
+      callPool(SOHM_ADDRESS, sOHMv2, "circulatingSupply", []).then(e => e[0]),
+      callPool(OHM_ADDRESS, IERC20ABI, "totalSupply", []).then(e => e[0]),
+      callPool(TREASURY_ADDRESS, TreasuryABI, "totalReserves", []).then(e => e[0]),
+      callPool(STAKING_ADDRESS, OlympusStakingv2ABI, "index", []).then(e => e[0]),
+      dispatch(loadMarketPrice({ networkID: networkID, provider: provider }),).unwrap().then(e => e.marketPrice),
+    ])
 
-    const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
-    // NOTE (appleseed): marketPrice from Graph was delayed, so get CoinGecko price
-    // const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
-    let marketPrice;
-    try {
-      const originalPromiseResult = await dispatch(
-        loadMarketPrice({ networkID: networkID, provider: provider }),
-      ).unwrap();
-      marketPrice = originalPromiseResult?.marketPrice;
-    } catch (rejectedValueOrSerializedError) {
-      // handle error here
-      console.error("Returned a null response from dispatch(loadMarketPrice)");
-      return;
-    }
-
-    const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
-    const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
-    const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
-    const treasuryMarketValue = parseFloat(graphData.data.protocolMetrics[0].treasuryMarketValue);
-    // const currentBlock = parseFloat(graphData.data._meta.block.number);
-
-    if (!provider) {
-      console.error("failed to connect to provider, please connect your wallet");
-      return {
-        stakingTVL,
-        marketPrice,
-        marketCap,
-        circSupply,
-        totalSupply,
-        treasuryMarketValue,
-      } as IAppData;
-    }
-    const currentBlock = await provider.getBlockNumber();
-
-    const stakingContract = new ethers.Contract(
-      addresses[networkID].STAKING_ADDRESS as string,
-      OlympusStakingv2ABI,
-      provider,
-    ) as OlympusStakingv2;
-
-    const sohmMainContract = new ethers.Contract(
-      addresses[networkID].SOHM_ADDRESS as string,
-      sOHMv2,
-      provider,
-    ) as SOhmv2;
-
-    // Calculating staking
-    const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
-    const circ = await sohmMainContract.circulatingSupply();
-    const stakingRebase = Number(stakingReward.toString()) / Number(circ.toString());
-    const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
-    const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
+    const stakingRebase = +stakingReward / +circ;
+    const fiveDayRate = Math.pow(1 + stakingRebase, 5 * REBASE_PER_DAY) - 1;
+    const stakingAPY = Math.min(Math.pow(1 + stakingRebase, 365 * REBASE_PER_DAY) - 1, 9999999.9999);
 
-    // Current index
-    const currentIndex = await stakingContract.index();
+    const totalSupply = +(totalSupplyRaw) / 1e9;
+
+    const circSupply = totalSupply - (+circ / 1e9);
+    const marketCap = totalSupply * marketPrice
+    const stakingTVL = (+circ / 1e9) * marketPrice
+    const treasuryMarketValue = +totalReservesRaw / 1e9;
+    const currentIndex = ethers.utils.formatUnits(currentIndexRaw, "gwei")
 
     return {
-      currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
+      currentIndex,
       currentBlock,
       fiveDayRate,
       stakingAPY,
       stakingTVL,
       stakingRebase,
-      marketCap,
       marketPrice,
+      marketCap,
       circSupply,
       totalSupply,
       treasuryMarketValue,
@@ -177,7 +134,8 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
     marketPrice = await getMarketPrice({ networkID, provider });
     marketPrice = marketPrice / Math.pow(10, 9);
   } catch (e) {
-    marketPrice = await getTokenPrice("olympus");
+    marketPrice = 100;
+    // marketPrice = await getTokenPrice("olympus");
   }
   return { marketPrice };
 });

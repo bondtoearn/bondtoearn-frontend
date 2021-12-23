@@ -15,10 +15,11 @@ import { shouldTriggerSafetyCheck } from "./helpers";
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
-import { getZapTokenBalances } from "./slices/ZapSlice";
+// import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
+// import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
+import { ChooseBond, Bond, TreasuryDashboard, Stake } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -131,7 +132,7 @@ function App() {
       bonds.map(bond => {
         dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
-      dispatch(getZapTokenBalances({ address, networkID: chainID, provider: loadProvider }));
+      // dispatch(getZapTokenBalances({ address, networkID: chainID, provider: loadProvider }));
       expiredBonds.map(bond => {
         dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
@@ -161,7 +162,7 @@ function App() {
       setWalletChecked(true);
     }
     if (shouldTriggerSafetyCheck()) {
-      dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
+      dispatch(info("Safety Check: Always verify you're on bondtoearn.com!"));
     }
   }, []);
 
@@ -228,7 +229,7 @@ function App() {
               <Stake />
             </Route>
 
-            <Route path="/zap">
+            {/* <Route path="/zap">
               <Route exact path={`/zap`}>
                 <Zap />
               </Route>
@@ -239,7 +240,7 @@ function App() {
 
             <Route path="/33-together">
               <PoolTogether />
-            </Route>
+            </Route> */}
 
             <Route path="/bonds">
               {(bonds as IAllBondData[]).map(bond => {

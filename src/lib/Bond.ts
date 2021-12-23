@@ -4,13 +4,15 @@ import { ethers } from "ethers";
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { abi as BondCalcContractABI } from "src/abi/BondCalcContract.json";
 import { EthContract, PairContract } from "src/typechain";
 import { addresses } from "src/constants";
 import React from "react";
+import callMethodWithPool from "./pools";
 
 export enum NetworkID {
-  Mainnet = 1,
-  Testnet = 4,
+  Mainnet = 56,
+  Testnet = 97,
 }
 
 export enum BondType {
@@ -103,11 +105,12 @@ export abstract class Bond {
   async getBondReservePrice(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     let marketPrice: number;
     if (this.isLP) {
-      const pairContract = this.getContractForReserve(networkID, provider);
-      const reserves = await pairContract.getReserves();
+      // const pairContract = this.getContractForReserve(networkID, provider);
+      // const reserves = await pairContract.getReserves();
+      const reserves = await callMethodWithPool({ networkID, provider: <any>provider })(this.getAddressForReserve(networkID), <any>this.reserveContract, "getReserves", [])
       marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
     } else {
-      marketPrice = await getTokenPrice("convex-finance");
+      marketPrice = 1//await getTokenPrice("convex-finance");
     }
     return marketPrice;
   }
@@ -133,12 +136,26 @@ export class LPBond extends Bond {
     this.displayUnits = "LP";
   }
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
-    const token = this.getContractForReserve(networkID, provider);
+
     const tokenAddress = this.getAddressForReserve(networkID);
-    const bondCalculator = getBondCalculator(networkID, provider);
-    const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
-    const markdown = await bondCalculator.markdown(tokenAddress);
+    const calcAddress = addresses[networkID].BONDINGCALC_ADDRESS
+    const callMethod = callMethodWithPool({ networkID, provider })
+    const [
+      tokenAmount,
+      _valuation,
+      markdown,
+    ] = await Promise.all([
+      callMethod(tokenAddress, <any>this.reserveContract, "balanceOf", [addresses[networkID].TREASURY_ADDRESS]).then(e => e[0]),
+      callMethod(calcAddress, <any>BondCalcContractABI, "valuation", [tokenAddress, String(1e18)]).then(e => e[0]),
+      callMethod(calcAddress, <any>BondCalcContractABI, "markdown", [tokenAddress]).then(e => e[0]),
+    ])
+
+
+    const valuation = (+tokenAmount / 1e18) * +_valuation
+
+    // const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    // const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
+    // const markdown = await bondCalculator.markdown(tokenAddress);
     let tokenUSD = (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
     return Number(tokenUSD.toString());
   }
@@ -146,7 +163,7 @@ export class LPBond extends Bond {
 
 // Generic BondClass we should be using everywhere
 // Assumes the token being deposited follows the standard ERC20 spec
-export interface StableBondOpts extends BondOpts {}
+export interface StableBondOpts extends BondOpts { }
 export class StableBond extends Bond {
   readonly isLP = false;
   readonly reserveContract: ethers.ContractInterface;
@@ -160,8 +177,8 @@ export class StableBond extends Bond {
   }
 
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
-    let token = this.getContractForReserve(networkID, provider);
-    let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    const callMethod = callMethodWithPool({ networkID, provider })
+    let tokenAmount = await callMethod(this.getAddressForReserve(networkID), <any>this.reserveContract, "balanceOf", [addresses[networkID].TREASURY_ADDRESS]);
     return Number(tokenAmount.toString()) / Math.pow(10, 18);
   }
 }

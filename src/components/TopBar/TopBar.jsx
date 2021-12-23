@@ -55,7 +55,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
 
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
 
-          <LocaleSwitcher theme={theme} />
+          {/* <LocaleSwitcher theme={theme} /> */}
         </Box>
       </Toolbar>
     </AppBar>

@@ -312,7 +312,7 @@ function ZapStakeAction(props) {
                       style={{ height: "36px", width: "36px" }}
                     />
                     <Box width="10px" />
-                    <Typography>sOHM</Typography>
+                    <Typography>sBTE</Typography>
                   </Box>
                   <Box flexDirection="row" display="flex" alignItems="center">
                     <Typography color="textSecondary">{`Balance ${trim(sOhmBalance, 2)}`}</Typography>
@@ -334,7 +334,7 @@ function ZapStakeAction(props) {
           <Trans>Exchange Rate</Trans>
         </Typography>
         <Typography>
-          {zapToken == null ? "nil" : `${trim(exchangeRate, 4)} ${tokens[zapToken]?.symbol}`} = 1 sOHM
+          {zapToken == null ? "nil" : `${trim(exchangeRate, 4)} ${tokens[zapToken]?.symbol}`} = 1 sBTE
         </Typography>
       </Box>
       <Box
@@ -348,7 +348,7 @@ function ZapStakeAction(props) {
         <Typography>
           <Trans>Minimum You Get</Trans>
         </Typography>
-        <Typography>{trim(Number(outputQuantity) * 0.98, 2)} sOHM</Typography>
+        <Typography>{trim(Number(outputQuantity) * 0.98, 2)} sBTE</Typography>
       </Box>
       {initialTokenAllowance ? (
         <Button

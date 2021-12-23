@@ -5,7 +5,7 @@ import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
-import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
+import { ReactComponent as BondToEarnIcon } from "../../assets/icons/bondtoearn-nav-header.svg";
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
 import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
@@ -53,18 +53,21 @@ function NavContent() {
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
         <div className="dapp-menu-top">
           <Box className="branding-header">
-            <Link href="https://olympusdao.finance" target="_blank">
+            <Link href="https://bondtoearn.com" target="_blank">
               <SvgIcon
                 color="primary"
-                component={OlympusIcon}
-                viewBox="0 0 151 100"
-                style={{ minWdth: "151px", minHeight: "98px", width: "151px" }}
+                component={BondToEarnIcon}
+                viewBox="0 0 400 400"
+                style={{ minWdth: "151px", minHeight: "80px", width: "151px", marginBottom: "0.4em" }}
               />
+              <Typography variant="h3">
+                <Trans>BondToEarn</Trans>
+              </Typography>
             </Link>
 
             {address && (
               <div className="wallet-link">
-                <Link href={`https://etherscan.io/address/${address}`} target="_blank">
+                <Link href={`https://bscscan.com/address/${address}`} target="_blank">
                   {shorten(address)}
                 </Link>
               </div>
@@ -103,7 +106,7 @@ function NavContent() {
                 </Typography>
               </Link>
 
-              <Link
+              {/* <Link
                 component={NavLink}
                 id="wrap-nav"
                 to="/wrap"
@@ -114,13 +117,11 @@ function NavContent() {
               >
                 <Box display="flex" alignItems="center">
                   <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
-                  {/* <WrapIcon /> */}
                   <Typography variant="h6">Wrap</Typography>
-                  {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                 </Box>
-              </Link>
+              </Link> */}
 
-              <Link
+              {/* <Link
                 href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
                 target="_blank"
               >
@@ -128,7 +129,7 @@ function NavContent() {
                   <BridgeIcon />
                   <Trans>Bridge</Trans>
                 </Typography>
-              </Link>
+              </Link> */}
 
               <Link
                 component={NavLink}
@@ -172,7 +173,7 @@ function NavContent() {
               <Box className="menu-divider">
                 <Divider />
               </Box>
-              <Link
+              {/* <Link
                 component={NavLink}
                 id="zap-nav"
                 to="/zap"
@@ -204,7 +205,7 @@ function NavContent() {
               </Link>
               <Box className="menu-divider">
                 <Divider />
-              </Box>
+              </Box> */}
             </div>
           </div>
         </div>

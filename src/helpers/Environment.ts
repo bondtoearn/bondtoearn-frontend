@@ -103,14 +103,28 @@ export class EnvHelper {
     let ALL_URIs = EnvHelper.getSelfHostedNode();
     if (EnvHelper.env.NODE_ENV === "development" && ALL_URIs.length === 0) {
       // push in the common ethers key in development
-      ALL_URIs.push("https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC");
+      ALL_URIs.push("https://bsc-dataseed1.binance.org/");
     }
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
     return ALL_URIs;
   }
 
   static getFallbackURIs() {
-    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getInfuraIdList()];
+    const ALL_URIs = [
+      "https://bsc-dataseed1.binance.org/",
+      "https://bsc-dataseed2.binance.org/",
+      "https://bsc-dataseed3.binance.org/",
+      "https://bsc-dataseed4.binance.org/",
+      "https://bsc-dataseed1.defibit.io/",
+      "https://bsc-dataseed2.defibit.io/",
+      "https://bsc-dataseed3.defibit.io/",
+      "https://bsc-dataseed4.defibit.io/",
+      "https://bsc-dataseed1.ninicoin.io/",
+      "https://bsc-dataseed2.ninicoin.io/",
+      "https://bsc-dataseed3.ninicoin.io/",
+      "https://bsc-dataseed4.ninicoin.io/",
+    ]
+    // const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
   }
 

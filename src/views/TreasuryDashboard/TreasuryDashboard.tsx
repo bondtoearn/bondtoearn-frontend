@@ -31,7 +31,7 @@ const TreasuryDashboard = memo(() => {
             <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
               <MarketCap />
               <OHMPrice />
-              <WSOHMPrice />
+              {/* <WSOHMPrice /> */}
               <CircSupply />
               <BackingPerOHM />
               <CurrentIndex />
@@ -102,11 +102,11 @@ const TreasuryDashboard = memo(() => {
               </Paper>
             </Grid>
 
-            <Grid item lg={6} md={6} sm={12} xs={12}>
+            {/* <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <RunwayAvailableGraph />
               </Paper>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Zoom>
       </Container>

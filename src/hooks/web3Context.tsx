@@ -11,7 +11,8 @@ import { NodeHelper } from "src/helpers/NodeHelper";
  * @returns string
  */
 function getTestnetURI() {
-  return EnvHelper.alchemyTestnetURI;
+  return `https://data-seed-prebsc-1-s1.binance.org:8545`;
+  // return EnvHelper.alchemyTestnetURI;
 }
 
 /**
@@ -21,20 +22,22 @@ function isIframe() {
   return window.location !== window.parent.location;
 }
 
-const ALL_URIs = NodeHelper.getNodesUris();
+// const ALL_URIs = NodeHelper.getNodesUris();
 
 /**
  * "intelligently" loadbalances production API Keys
  * @returns string
  */
 function getMainnetURI(): string {
-  // Shuffles the URIs for "intelligent" loadbalancing
-  const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
+  return `https://bsc-dataseed1.binance.org`;
 
-  // There is no lightweight way to test each URL. so just return a random one.
-  // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
-  const randomIndex = Math.floor(Math.random() * allURIs.length);
-  return allURIs[randomIndex];
+  // Shuffles the URIs for "intelligent" loadbalancing
+  // const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
+
+  // // There is no lightweight way to test each URL. so just return a random one.
+  // // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
+  // const randomIndex = Math.floor(Math.random() * allURIs.length);
+  // return allURIs[randomIndex];
 }
 
 /*
@@ -80,7 +83,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [connected, setConnected] = useState(false);
   // NOTE (appleseed): if you are testing on rinkeby you need to set chainId === 4 as the default for non-connected wallet testing...
   // ... you also need to set getTestnetURI() as the default uri state below
-  const [chainID, setChainID] = useState(1);
+  const [chainID, setChainID] = useState(56);
   const [address, setAddress] = useState("");
 
   const [uri, setUri] = useState(getMainnetURI());
@@ -96,8 +99,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           package: WalletConnectProvider,
           options: {
             rpc: {
-              1: getMainnetURI(),
-              4: getTestnetURI(),
+              56: getMainnetURI(),
+              97: getTestnetURI(),
             },
           },
         },
@@ -141,10 +144,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
    */
   const _checkNetwork = (otherChainID: number): boolean => {
     if (chainID !== otherChainID) {
+      console.log({ chainID, otherChainID });
       console.warn("You are switching networks");
-      if (otherChainID === 1 || otherChainID === 4) {
+      if (otherChainID === 56 || otherChainID === 97) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getMainnetURI()) : setUri(getTestnetURI());
+        otherChainID === 56 ? setUri(getMainnetURI()) : setUri(getTestnetURI());
         return true;
       }
       return false;
@@ -198,6 +202,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal, uri }),
     [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal, uri],
   );
+
+  console.log("onChainProvider", onChainProvider)
 
   useEffect(() => {
     // logs non-functioning nodes && returns an array of working mainnet nodes

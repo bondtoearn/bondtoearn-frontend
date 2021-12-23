@@ -91,7 +91,6 @@ const commonSettings = {
         backdropFilter: "blur(33px)",
         "&.ohm-card": {
           padding: "20px 30px 30px 30px",
-          borderRadius: "10px",
           maxWidth: "833px",
           width: "97%",
           marginBottom: "1.8rem",
@@ -99,7 +98,6 @@ const commonSettings = {
         },
         "&.ohm-menu": {
           padding: "22px 0px",
-          borderRadius: "10px",
           margin: "0px",
         },
         "&.ohm-chart-card": {
@@ -163,14 +161,12 @@ const commonSettings = {
     MuiToggleButton: {
       root: {
         border: 0,
-        borderRadius: "5px",
         margin: "8px",
         padding: "10px",
       },
     },
     MuiButton: {
       root: {
-        borderRadius: "5px",
         textTransform: "none",
         textDecoration: "none",
         whiteSpace: "nowrap",
@@ -180,9 +176,11 @@ const commonSettings = {
       containedPrimary: {
         border: 0,
         fontWeight: "500",
+        // maxHeight: "auto",
       },
       containedSecondary: {
         fontWeight: "400",
+        // maxHeight: "auto",
       },
       outlinedPrimary: {
         height: "33px",

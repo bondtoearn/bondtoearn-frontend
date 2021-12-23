@@ -5,19 +5,19 @@ import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 
 import { SvgIcon } from "@material-ui/core";
-import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
-import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
+import { ReactComponent as OhmImg } from "../assets/tokens/token_BTE.svg";
+import { ReactComponent as SOhmImg } from "../assets/tokens/token_sBTE.svg";
 
 import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
+import callMethodWithPool from "src/lib/pools";
 
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
-  const pairContract = new ethers.Contract(ohm_dai_address, PairContractABI, provider) as PairContract;
-  const reserves = await pairContract.getReserves();
-  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString());
+  const reserves = await callMethodWithPool({ networkID, provider })(ohm_dai_address, PairContractABI, "getReserves", [])
+  const marketPrice = +reserves[1] / +reserves[0]
 
   return marketPrice;
 }
@@ -43,6 +43,8 @@ export function shorten(str: string) {
 }
 
 export function formatCurrency(c: number, precision = 0) {
+  if (!Number.isFinite(c))
+    return "$--.--"
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",

@@ -30,7 +30,7 @@ export const OHMPrice = () => {
 
   return (
     <Metric className="price">
-      <Metric.Title>OHM Price</Metric.Title>
+      <Metric.Title>BTE Price</Metric.Title>
       <Metric.Value>{marketPrice && formatCurrency(marketPrice, 2)}</Metric.Value>
     </Metric>
   );
@@ -55,7 +55,7 @@ export const BackingPerOHM = () => {
 
   return (
     <Metric className="bpo">
-      <Metric.Title>Backing per OHM</Metric.Title>
+      <Metric.Title>Backing per BTE</Metric.Title>
       <Metric.Value>{!isNaN(backingPerOhm) && formatCurrency(backingPerOhm, 2)}</Metric.Value>
     </Metric>
   );
@@ -68,9 +68,9 @@ export const CurrentIndex = () => {
     <Metric className="index">
       <Metric.Title>
         Current Index
-        <InfoTooltip message="The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1." />
+        <InfoTooltip message="The current index tracks the amount of sBTE accumulated since the beginning of staking. Basically, how much sBTE one would have if they staked and held a single BTE from day 1." />
       </Metric.Title>
-      <Metric.Value>{currentIndex && trim(currentIndex, 2) + " sOHM"}</Metric.Value>
+      <Metric.Value>{currentIndex && trim(currentIndex, 2) + " sBTE"}</Metric.Value>
     </Metric>
   );
 };
@@ -81,10 +81,10 @@ export const WSOHMPrice = () => {
   return (
     <Metric className="wsoprice">
       <Metric.Title>
-        wsOHM Price
+        wsBTE Price
         <InfoTooltip
           message={
-            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
+            "wsBTE = sBTE * index\n\nThe price of wsBTE is equal to the price of BTE multiplied by the current index"
           }
         />
       </Metric.Title>

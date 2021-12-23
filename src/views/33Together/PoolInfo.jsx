@@ -72,7 +72,7 @@ export const PoolInfo = props => {
                 <Typography>
                   <Trans>Your wallet balance</Trans>
                 </Typography>
-                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance} sOHM</Typography>
+                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance} sBTE</Typography>
               </div>
             </Box>
             <Divider color="secondary" />
@@ -91,7 +91,7 @@ export const PoolInfo = props => {
               <Trans>Total Deposits</Trans>
             </Typography>
             <Typography>
-              {props.graphLoading ? <Skeleton width={100} /> : props.totalDeposits.toLocaleString()} sOHM
+              {props.graphLoading ? <Skeleton width={100} /> : props.totalDeposits.toLocaleString()} sBTE
             </Typography>
           </div>
           <div className="data-row">
@@ -99,21 +99,21 @@ export const PoolInfo = props => {
               <Trans>Total Sponsorship</Trans>
             </Typography>
             <Typography>
-              {props.graphLoading ? <Skeleton width={100} /> : props.totalSponsorship.toLocaleString()} sOHM
+              {props.graphLoading ? <Skeleton width={100} /> : props.totalSponsorship.toLocaleString()} sBTE
             </Typography>
           </div>
           <div className="data-row">
             <Typography>
               <Trans>Yield Source</Trans>
             </Typography>
-            <Typography>sOHM</Typography>
+            <Typography>sBTE</Typography>
           </div>
           <div className="data-row">
             <Typography>
               <Trans>Pool owner</Trans>
             </Typography>
             <Box display="flex" alignItems="center">
-              <Typography>OlympusDAO</Typography>
+              <Typography>BondToEarn</Typography>
             </Box>
           </div>
           <Divider color="secondary" />
@@ -147,7 +147,7 @@ export const PoolInfo = props => {
           <div className="marginedBtn">
             <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[0]} target="_blank">
               <Typography variant="body1">
-                <Trans>sOHM Prize Pool</Trans>&nbsp;
+                <Trans>sBTE Prize Pool</Trans>&nbsp;
               </Typography>
               <SvgIcon component={ArrowUp} color="primary" />
             </Button>
@@ -155,7 +155,7 @@ export const PoolInfo = props => {
           <div className="marginedBtn">
             <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[1]} target="_blank">
               <Typography variant="body1">
-                <Trans>sOHM Pool Details</Trans>&nbsp;
+                <Trans>sBTE Pool Details</Trans>&nbsp;
               </Typography>
               <SvgIcon component={ArrowUp} color="primary" />
             </Button>

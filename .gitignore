@@ -42,5 +42,6 @@ yarn-error.log*
 .idea
 *.sublime-*
 .vscode
+.firebase
 
 src/typechain

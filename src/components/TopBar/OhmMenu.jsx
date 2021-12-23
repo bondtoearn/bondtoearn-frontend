@@ -4,18 +4,16 @@ import { NavLink } from "react-router-dom";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
-import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
-import { ReactComponent as wsOhmTokenImg } from "../../assets/tokens/token_wsOHM.svg";
-import { ReactComponent as ohmTokenImg } from "../../assets/tokens/token_OHM.svg";
-import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
+import { ReactComponent as sBTETokenImg } from "../../assets/tokens/token_sBTE.svg";
+import { ReactComponent as bteTokenImg } from "../../assets/tokens/token_BTE.svg";
 
 import "./ohmmenu.scss";
-import { dai, frax } from "src/helpers/AllBonds";
+import { dai } from "src/helpers/AllBonds";
 import { Trans } from "@lingui/macro";
 import { useWeb3Context } from "../../hooks/web3Context";
 
-import OhmImg from "src/assets/tokens/token_OHM.svg";
-import SOhmImg from "src/assets/tokens/token_sOHM.svg";
+import BTEImg from "src/assets/tokens/token_BTE.svg";
+import sBTEImg from "src/assets/tokens/token_sBTE.svg";
 import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
 import token33tImg from "src/assets/tokens/token_33T.svg";
 
@@ -27,8 +25,8 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
     let tokenPath;
     let tokenDecimals = TOKEN_DECIMALS;
     switch (tokenSymbol) {
-      case "OHM":
-        tokenPath = OhmImg;
+      case "BTE":
+        tokenPath = BTEImg;
         break;
       case "33T":
         tokenPath = token33tImg;
@@ -38,7 +36,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
         tokenDecimals = 18;
         break;
       default:
-        tokenPath = SOhmImg;
+        tokenPath = sBTEImg;
     }
     const imageURL = `${host}/${tokenPath}`;
 
@@ -76,8 +74,8 @@ function OhmMenu() {
 
   const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS;
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
-  const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
-  const GOHM_ADDRESS = addresses[networkID].GOHM_ADDRESS;
+  // const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
+  // const GOHM_ADDRESS = addresses[networkID].GOHM_ADDRESS;
   const handleClick = event => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
@@ -85,7 +83,7 @@ function OhmMenu() {
   const open = Boolean(anchorEl);
   const id = "ohm-popper";
   const daiAddress = dai.getAddressForReserve(networkID);
-  const fraxAddress = frax.getAddressForReserve(networkID);
+  // const fraxAddress = frax.getAddressForReserve(networkID);
   return (
     <Box
       component="div"
@@ -95,7 +93,7 @@ function OhmMenu() {
     >
       <Button id="ohm-menu-button" size="large" variant="contained" color="secondary" title="OHM" aria-describedby={id}>
         <SvgIcon component={InfoIcon} color="primary" />
-        <Typography>OHM</Typography>
+        <Typography>BTE</Typography>
       </Button>
 
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>
@@ -105,19 +103,19 @@ function OhmMenu() {
               <Paper className="ohm-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
                   <Link
-                    href={`https://app.sushi.com/swap?inputCurrency=${daiAddress}&outputCurrency=${OHM_ADDRESS}`}
+                    href={`https://pancakeswap.finance/swap?inputCurrency=${daiAddress}&outputCurrency=${OHM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
                     <Button size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
-                        <Trans>Buy on {new String("Sushiswap")}</Trans>
+                        <Trans>Buy on {new String("PancakeSwap")}</Trans>
                         <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>
                   </Link>
 
-                  <Link
+                  {/* <Link
                     href={`https://app.uniswap.org/#/swap?inputCurrency=${fraxAddress}&outputCurrency=${OHM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
@@ -128,16 +126,16 @@ function OhmMenu() {
                         <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>
-                  </Link>
+                  </Link> */}
 
-                  <Link component={NavLink} to="/wrap" style={{ textDecoration: "none" }}>
+                  {/* <Link component={NavLink} to="/wrap" style={{ textDecoration: "none" }}>
                     <Button size="large" variant="contained" color="secondary" fullWidth>
-                      <Typography align="left">Wrap sOHM</Typography>
+                      <Typography align="left">Wrap sBTE</Typography>
                     </Button>
-                  </Link>
+                  </Link> */}
                 </Box>
 
-                <Box component="div" className="data-links">
+                {/* <Box component="div" className="data-links">
                   <Divider color="secondary" className="less-margin" />
                   <Link href={`https://dune.xyz/shadow/Olympus-(OHM)`} target="_blank" rel="noreferrer">
                     <Button size="large" variant="contained" color="secondary" fullWidth>
@@ -146,7 +144,7 @@ function OhmMenu() {
                       </Typography>
                     </Button>
                   </Link>
-                </Box>
+                </Box> */}
 
                 {isEthereumAPIAvailable ? (
                   <Box className="add-tokens">
@@ -159,31 +157,31 @@ function OhmMenu() {
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={addTokenToWallet("OHM", OHM_ADDRESS, address)}
+                          onClick={addTokenToWallet("BTE", OHM_ADDRESS, address)}
                         >
                           <SvgIcon
-                            component={ohmTokenImg}
+                            component={bteTokenImg}
                             viewBox="0 0 32 32"
-                            style={{ height: "25px", width: "25px" }}
+                            style={{ height: "40px", width: "40px" }}
                           />
-                          <Typography variant="body1">OHM</Typography>
+                          <Typography variant="body1">BTE</Typography>
                         </Button>
                       )}
                       {SOHM_ADDRESS && (
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={addTokenToWallet("sOHM", SOHM_ADDRESS, address)}
+                          onClick={addTokenToWallet("sBTE", SOHM_ADDRESS, address)}
                         >
                           <SvgIcon
-                            component={sOhmTokenImg}
-                            viewBox="0 0 100 100"
-                            style={{ height: "25px", width: "25px" }}
+                            component={sBTETokenImg}
+                            viewBox="0 0 32 32"
+                            style={{ height: "40px", width: "40px" }}
                           />
-                          <Typography variant="body1">sOHM</Typography>
+                          <Typography variant="body1">sBTE</Typography>
                         </Button>
                       )}
-                      {GOHM_ADDRESS && (
+                      {/* {GOHM_ADDRESS && (
                         <Button
                           variant="contained"
                           color="secondary"
@@ -196,8 +194,8 @@ function OhmMenu() {
                           />
                           <Typography variant="body1">gOHM</Typography>
                         </Button>
-                      )}
-                      {PT_TOKEN_ADDRESS && (
+                      )} */}
+                      {/* {PT_TOKEN_ADDRESS && (
                         <Button
                           variant="contained"
                           color="secondary"
@@ -210,14 +208,14 @@ function OhmMenu() {
                           />
                           <Typography variant="body1">33T</Typography>
                         </Button>
-                      )}
+                      )} */}
                     </Box>
                   </Box>
                 ) : null}
 
-                <Divider color="secondary" />
+                {/* <Divider color="secondary" />
                 <Link
-                  href="https://docs.olympusdao.finance/using-the-website/unstaking_lp"
+                  href="https://docs.bondtoearn.com/using-the-website/unstaking_lp"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -237,7 +235,7 @@ function OhmMenu() {
                       <Trans>Bridge Tokens</Trans>
                     </Typography>
                   </Button>
-                </Link>
+                </Link> */}
               </Paper>
             </Fade>
           );

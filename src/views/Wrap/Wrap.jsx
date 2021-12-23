@@ -126,14 +126,14 @@ function Wrap() {
       action === "wrap" &&
       ethers.utils.parseUnits(quantity, "gwei").gt(ethers.utils.parseUnits(sohmBalance, "gwei"))
     ) {
-      return dispatch(error("You cannot wrap more than your sOHM balance."));
+      return dispatch(error("You cannot wrap more than your sBTE balance."));
     }
 
     if (
       action === "unwrap" &&
       ethers.utils.parseUnits(quantity, "ether").gt(ethers.utils.parseUnits(wsohmBalance, "ether"))
     ) {
-      return dispatch(error("You cannot unwrap more than your wsOHM balance."));
+      return dispatch(error("You cannot unwrap more than your wsBTE balance."));
     }
 
     await dispatch(changeWrap({ address, action, value: quantity.toString(), provider, networkID: chainID }));
@@ -185,7 +185,7 @@ function Wrap() {
         networkID: chainID,
         type: "sohm",
         value: quantity,
-        action: "wrap to gOHM",
+        action: "wrap to gBTE",
       }),
     );
   };
@@ -194,44 +194,44 @@ function Wrap() {
     dispatch(bridgeBack({ provider, address, networkID: chainID, value: quantity }));
   };
 
-  const assetName = asset === 0 ? "wsOHM" : "gOHM";
+  const assetName = asset === 0 ? "wsBTE" : "gBTE";
 
   const chooseInputArea = () => {
     if (!address || isAllowanceDataLoading) return <Skeleton width="150px" />;
     if (view === 0 && asset === 0)
       return (
         <div className="no-input-visible">
-          Wrapping to <b>wsOHM</b> is disabled at this time due to the upcoming{" "}
-          <a className="v2-migration-link" href="https://olympusdao.medium.com/introducing-olympus-v2-c4ade14e9fe">
+          Wrapping to <b>wsBTE</b> is disabled at this time due to the upcoming{" "}
+          <a className="v2-migration-link" href="https://bondtoearn.medium.com/">
             V2 migration
           </a>
           .
           <br />
-          If you'd like to wrap your <b>sOHM</b>, please try wrapping to <b>gOHM</b> instead.
+          If you'd like to wrap your <b>sBTE</b>, please try wrapping to <b>gBTE</b> instead.
         </div>
       );
     if (!hasAllowance("sohm") && view === 0 && asset === 1)
       return (
         <div className="no-input-visible">
-          First time wrapping to <b>gOHM</b>?
+          First time wrapping to <b>gBTE</b>?
           <br />
-          Please approve Olympus Dao to use your <b>sOHM</b> for this transaction.
+          Please approve BondToEarn Contract to use your <b>sBTE</b> for this transaction.
         </div>
       );
     if (!hasAllowance("gohm") && view === 1 && asset === 1)
       return (
         <div className="no-input-visible">
-          First time unwrapping <b>gOHM</b>?
+          First time unwrapping <b>gBTE</b>?
           <br />
-          Please approve Olympus Dao to use your <b>gOHM</b> for unwrapping.
+          Please approve BondToEarn Contract to use your <b>gBTE</b> for unwrapping.
         </div>
       );
     if (!hasAllowance("wsohm") && view === 1 && asset === 0)
       return (
         <div className="no-input-visible">
-          First time unwrapping <b>wsOHM</b>?
+          First time unwrapping <b>wsBTE</b>?
           <br />
-          Please approve Olympus Dao to use your <b>wsOHM</b> for unwrapping.
+          Please approve BondToEarn Contract to use your <b>wsBTE</b> for unwrapping.
         </div>
       );
 
@@ -290,7 +290,7 @@ function Wrap() {
               migrateToGohm();
             }}
           >
-            {txnButtonText(pendingTransactions, "wrapping", "Wrap to gOHM")}
+            {txnButtonText(pendingTransactions, "wrapping", "Wrap to gBTE")}
           </Button>
         );
     }
@@ -324,8 +324,8 @@ function Wrap() {
             }}
           >
             {asset === 0
-              ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap wsOHM")
-              : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gOHM")}
+              ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap wsBTE")
+              : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gBTE")}
           </Button>
         );
     }
@@ -344,8 +344,8 @@ function Wrap() {
                   style={{ textDecoration: "none" }}
                   href={
                     asset === 0
-                      ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
-                      : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                      ? "https://docs.bondtoearn.com/main/contracts/tokens#wsohm"
+                      : "https://docs.bondtoearn.com/main/contracts/tokens#gohm"
                   }
                   aria-label="wsohm-wut"
                   target="_blank"
@@ -361,7 +361,7 @@ function Wrap() {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="wrap-sOHM">
                       <Typography variant="h5" color="textSecondary">
-                        sOHM Price
+                        sBTE Price
                       </Typography>
                       <Typography variant="h4">
                         {sOhmPrice ? formatCurrency(sOhmPrice, 2) : <Skeleton width="150px" />}
@@ -374,7 +374,7 @@ function Wrap() {
                         Current Index
                       </Typography>
                       <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        {currentIndex ? <>{trim(currentIndex, 2)} BTE</> : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
@@ -383,7 +383,7 @@ function Wrap() {
                       <Typography variant="h5" color="textSecondary">
                         {`${assetName} Price`}
                         <InfoTooltip
-                          message={`${assetName} = sOHM * index\n\nThe price of ${assetName} is equal to the price of OHM multiplied by the current index`}
+                          message={`${assetName} = sBTE * index\n\nThe price of ${assetName} is equal to the price of BTE multiplied by the current index`}
                         />
                       </Typography>
                       <Typography variant="h4">
@@ -401,7 +401,7 @@ function Wrap() {
                   <div className="wallet-menu" id="wallet-menu">
                     {modalButton}
                   </div>
-                  <Typography variant="h6">Connect your wallet to wrap sOHM</Typography>
+                  <Typography variant="h6">Connect your wallet to wrap sBTE</Typography>
                 </div>
               ) : (
                 <>
@@ -423,8 +423,8 @@ function Wrap() {
                       <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <span className="asset-select-label">{view === 0 ? "Wrap to" : "Unwrap"} </span>
                         <Select id="asset-select" value={asset} label="Asset" onChange={changeAsset} disableUnderline>
-                          <MenuItem value={0}>wsOHM</MenuItem>
-                          <MenuItem value={1}>gOHM</MenuItem>
+                          <MenuItem value={0}>wsBTE</MenuItem>
+                          <MenuItem value={1}>gBTE</MenuItem>
                         </Select>
                       </FormControl>
                     </Box>
@@ -439,11 +439,11 @@ function Wrap() {
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
                           {isUnwrap
-                            ? `Unwrapping ${quantity} ${asset === 0 ? "wsOHM" : "gOHM"} will result in ${trim(
+                            ? `Unwrapping ${quantity} ${asset === 0 ? "wsBTE" : "gBTE"} will result in ${trim(
                                 convertedQuantity,
                                 4,
-                              )} sOHM`
-                            : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} gOHM`}
+                              )} sBTE`
+                            : `Wrapping ${quantity} sBTE will result in ${trim(convertedQuantity, 4)} gBTE`}
                         </Typography>
                       </Box>
                     )}
@@ -453,7 +453,7 @@ function Wrap() {
                     <div className="data-row">
                       <Typography variant="body1">Wrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sBTE</>}
                       </Typography>
                     </div>
                     <div className="data-row">
@@ -462,7 +462,7 @@ function Wrap() {
                         {isAppLoading ? (
                           <Skeleton width="80px" />
                         ) : (
-                          <>{asset === 0 ? trim(wsohmBalance, 4) + " wsOHM" : trim(gohmBalance, 4) + " gOHM"}</>
+                          <>{asset === 0 ? trim(wsohmBalance, 4) + " wsBTE" : trim(gohmBalance, 4) + " gBTE"}</>
                         )}
                       </Typography>
                     </div>

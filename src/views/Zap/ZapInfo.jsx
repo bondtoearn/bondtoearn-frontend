@@ -121,7 +121,7 @@ function ZapInfo({ tokens, address }) {
                 ]}
               />
               <Typography color="textSecondary" align="center">
-                <Trans>You Get sOHM</Trans>{" "}
+                <Trans>You Get sBTE</Trans>{" "}
               </Typography>
             </Box>
             <Box classes={{ root: classes.infoBody }}>
@@ -130,8 +130,8 @@ function ZapInfo({ tokens, address }) {
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
                 <Trans>
-                  Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
-                  equal amount of sOHM.
+                  Staking is the primary value accrual strategy of Olympus. When you stake, you lock BTE and receive an
+                  equal amount of sBTE.
                 </Trans>
               </Typography>
             </Box>
@@ -141,7 +141,7 @@ function ZapInfo({ tokens, address }) {
           <Button
             variant="outlined"
             color="secondary"
-            href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
+            href="https://docs.bondtoearn.com/main/using-the-website/olyzaps"
             target="_blank"
             className="learn-more-button"
             onClick={() => {
